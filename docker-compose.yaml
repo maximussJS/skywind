@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  memsql:
+    image: 'memsql/cluster-in-a-box'
+    container_name: memsql.db
+    ports:
+      - 3306:3306
+      - 8080:8080
+    environment:
+      LICENSE_KEY: ${LICENSE_KEY}
+      START_AFTER_INIT: 'Y'
+  service.a:
+    build: ./servicea
+    container_name: service.a
+    links:
+      - "service.b"
+    env_file:
+      - ./servicea/.env
+    ports:
+      - "8082:8082"
+    depends_on:
+      - service.b
+  service.b:
+    build: ./serviceb
+    container_name: service.b
+    expose:
+      - "3302"
+    env_file:
+      - ./serviceb/.env
+    ports:
+      - "3302:3302"
+      - "8081:8081"
+    depends_on:
+      - memsql
