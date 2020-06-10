@@ -1,0 +1,1 @@
+![alt text](file:/C:\Users\kors\WebstormProjects\Skywind\IMG_4227.png)
